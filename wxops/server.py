@@ -23,6 +23,10 @@ class WOServer(object):
             self.SERVER_STATUS = False
         return user_input
 
+    def reset(self):
+        self.SERVER_STATUS = False
+        self.LOGIN_STATUS = False
+
     @staticmethod
     def parse_request(action_name):
         """ check the operation and do it """

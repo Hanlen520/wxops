@@ -25,6 +25,7 @@ def screen_shot():
 
 
 def terminal_command():
+    # TODO: 这里需要改成调用现有脚本而不是直接输入命令
     print('terminal mode. enter \'qqq\' to exit.')
     while True:
         user_input = input('>> ')

@@ -7,3 +7,4 @@ if __name__ == '__main__':
         if command == 'login':
             print('Connected.')
             server.run()
+            server.reset()
