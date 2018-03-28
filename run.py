@@ -1,7 +1,8 @@
-from wxops.server import run_server
+from wxops.server import server
 
 
 if __name__ == '__main__':
     while True:
-
-    run_server()
+        command = input('Waiting for connect... \n')
+        if command == 'login':
+            server.run()

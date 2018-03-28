@@ -2,40 +2,39 @@ from .auth import confirm_login
 from .operation import OPS_DICT
 
 
-SERVER_STATUS = True
-
-
 @confirm_login
-def run_server():
-    set_server(True)
-    while True:
-        request_content = get_request()
-        if not SERVER_STATUS:
-            break
-        operation_name, object_name = parse_request(request_content)
-        apply_operation(operation_name, object_name)
+class WOServer(object):
+    SERVER_STATUS = True
 
+    def run(self):
+        """ start operation with server """
+        self.SERVER_STATUS = True
+        while True:
+            request_content = self.get_request()
+            if not self.SERVER_STATUS:
+                break
+            self.apply_operation(*self.parse_request(request_content))
 
-def set_server(status):
-    global SERVER_STATUS
-    SERVER_STATUS = bool(status)
+    def get_request(self):
+        """ get request content from user """
+        user_input = input('DO WTF U WANT:) \n').lower()
+        if user_input in ('exit', 'quit', 'disconnect', 'logout'):
+            self.SERVER_STATUS = False
+        return user_input
 
+    @staticmethod
+    def apply_operation(operation_name, object_name):
+        """ check the operation and do it """
+        if operation_name in OPS_DICT:
+            OPS_DICT[operation_name](object_name)
+        else:
+            print('not supported!')
 
-def get_request():
-    user_input = input('DO WTF U WANT:) \n').lower()
-    if user_input in ('exit', 'quit', 'disconnect', 'logout'):
-        set_server(False)
-    return user_input
+    @staticmethod
+    def parse_request(request_content):
+        """ format request content """
+        operation_name, *object_name = request_content.split(' ')
+        object_name = ' '.join(object_name)
+        return operation_name, object_name
 
-
-def apply_operation(operation_name, object_name):
-    if operation_name in OPS_DICT:
-        OPS_DICT[operation_name](object_name)
-    else:
-        print('not supported!')
-
-
-def parse_request(request_content):
-    operation_name, *object_name = request_content.split(' ')
-    object_name = ' '.join(object_name)
-    return operation_name, object_name
+server = WOServer()
