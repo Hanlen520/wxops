@@ -1,9 +1,12 @@
 from . import APP_DICT
+from PIL import ImageGrab
 import os
 
 
 # TODO: need more function
-def open_app(app_name):
+def open_app():
+    print(os.linesep.join(APP_DICT.keys()))
+    app_name = input('need app name: (options showed above)' + os.linesep)
     if app_name in APP_DICT:
         app_path = APP_DICT[app_name]
         os.startfile(app_path)
@@ -15,9 +18,24 @@ def open_app(app_name):
 
 
 def screen_shot():
-    pass
+    pic = ImageGrab.grab()
+    pic.save('temp.jpg')
+    print('shot!')
+    # TODO: 发送出去
+
+
+def terminal_command():
+    print('terminal mode. enter \'qqq\' to exit.')
+    while True:
+        user_input = input('>> ')
+        if user_input == 'qqq':
+            print('quited.')
+            break
+        print(os.popen(user_input).read())
 
 
 OPS_DICT = {
     'open': open_app,
+    'screenshot': screen_shot,
+    'terminal': terminal_command
 }
